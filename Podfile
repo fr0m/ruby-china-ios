@@ -1,0 +1,7 @@
+platform :ios, '7.0'
+pod 'CCBottomRefreshControl'
+pod 'GoogleAnalytics-iOS-SDK'
+pod 'MBProgressHUD'
+pod 'SDWebImage'
+pod 'Underscore.m'
+# pod 'iVersion'

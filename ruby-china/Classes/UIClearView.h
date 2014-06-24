@@ -1,0 +1,5 @@
+@interface UIClearView : UIView
+{
+}
+
+@end
