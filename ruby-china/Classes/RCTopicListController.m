@@ -1,14 +1,18 @@
+#import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "RCNodeListController.h"
 #import "RCTopicListController.h"
+#import "RCTopicShowController.h"
 #import "UIClearView.h"
 
-@implementation RCRopicListController
+@implementation RCTopicListController
 
 - (void)viewDidLoad
 {
     if (!self.title) self.title = @"Ruby China";
     self.topics = [@[] mutableCopy];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"分类" style:UIBarButtonItemStylePlain target:self action:@selector(showNodeList)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(loadData)];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
@@ -17,23 +21,54 @@
     self.tableView.tableFooterView = [UIClearView new];
     [self.view addSubview:self.tableView];
     
+    self.topRefreshControl = [UIRefreshControl new];
+    self.topRefreshControl.tintColor = [[UIApplication sharedApplication].delegate window].tintColor;
+    [self.topRefreshControl addTarget:self action:@selector(topRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.topRefreshControl];
+    
+    UIRefreshControl *bottomRefreshControl = [UIRefreshControl new];
+    self.bottomRefreshControl.tintColor = [[UIApplication sharedApplication].delegate window].tintColor;
+    [bottomRefreshControl endRefreshing];
+    [bottomRefreshControl addTarget:self action:@selector(bottomRefresh) forControlEvents:UIControlEventValueChanged];
+    self.tableView.bottomRefreshControl = bottomRefreshControl;
+
+    [self topRefresh];
+}
+
+- (void)topRefresh
+{
+    self.topics = [@[] mutableCopy];
+    self.currentPage = 1;
     [self loadData];
+}
+
+- (void)bottomRefresh
+{
+    [self loadData];
+}
+
+- (void)stopRefresh
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.refreshing = NO;
+        [self.topRefreshControl endRefreshing];
+        [self.tableView.bottomRefreshControl endRefreshing];
+    });
 }
 
 - (void)loadData
 {
-    NSMutableString *url = [@"https://ruby-china.org/api/topics.json?per_page=30" mutableCopy];
-//    [url appendString:[NSString stringWithFormat:@"&page=%i", self.currentPage]];
+    if (self.refreshing) return; else self.refreshing = YES;
+    NSString *url = [NSString stringWithFormat:@"https://ruby-china.org/api/topics%@.json?per_page=30&page=%i", self.nodeId ? [NSString stringWithFormat:@"/node/%@", self.nodeId] : @"", self.currentPage];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue new] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!self) return;
-//            [self stopRefresh];
+            [self stopRefresh];
             if (connectionError) return;
             NSArray *topics = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             [self.topics addObjectsFromArray:topics];
-//            self.productsCount = (int)[ret[@"products_count"] integerValue];
-//            self.currentPage ++;
+            self.currentPage ++;
             [self.tableView reloadData];
         });
     }];
@@ -53,13 +88,15 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TopicListCell"];
     if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TopicListCell"];
+    if (indexPath.row > self.topics.count) return cell;
     NSDictionary *topic = self.topics[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = topic[@"title"];
     cell.textLabel.numberOfLines = 2;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"[%@] %@ %@", topic[@"node_name"], topic[@"user"][@"login"], [topic[@"replies_count"] intValue] > 0 ? [NSString stringWithFormat:@"· %@ ↵", topic[@"replies_count"]] : @""];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@%@", self.nodeId ? @"" : [NSString stringWithFormat:@"[%@] · ", topic[@"node_name"]], topic[@"user"][@"login"], [topic[@"replies_count"] intValue] > 0 ? [NSString stringWithFormat:@" · %@ ↵", topic[@"replies_count"]] : @""];
     cell.detailTextLabel.textColor = [UIColor grayColor];
-    [cell.imageView setImageWithURL:topic[@"user"][@"avatar_url"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+    [cell.imageView setImageWithURL:topic[@"user"][@"avatar_url"] placeholderImage:[UIImage imageNamed:@"transparent_64x64.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        if (error) return;
         cell.imageView.transform = CGAffineTransformMakeScale(32 / cell.imageView.image.size.width, 32 / cell.imageView.image.size.height);
         [cell setNeedsLayout];
     }];
@@ -69,6 +106,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    RCTopicShowController *topicShowController = [RCTopicShowController new];
+    topicShowController.title = self.topics[indexPath.row][@"title"];
+    topicShowController.topicId = [self.topics[indexPath.row][@"id"] intValue];
+    [self.navigationController pushViewController:topicShowController animated:YES];
+}
+
+- (void)showNodeList
+{
+    [self.navigationController presentViewController:[[UINavigationController alloc] initWithRootViewController:[RCNodeListController new]] animated:YES completion:nil];
 }
 
 @end

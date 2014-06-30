@@ -7,7 +7,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.tintColor = [UIColor colorWithRed:155/256.0 green:17/256.0 blue:30/256.0 alpha:1];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[RCRopicListController new]];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[RCTopicListController new]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
