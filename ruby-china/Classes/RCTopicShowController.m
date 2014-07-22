@@ -2,18 +2,18 @@
 #import <DateTools/NSDate+DateTools.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "RCTopicShowController.h"
-#import "UIClearView.h"
+#import "RCClearView.h"
 
 @implementation RCTopicShowController
 
 - (void)viewDidLoad
 {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(reply)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareTopic)];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.tableFooterView = [UIClearView new];
+    self.tableView.tableFooterView = [RCClearView new];
     [self.view addSubview:self.tableView];
     
     [self loadData];
@@ -123,9 +123,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)reply
+- (void)shareTopic
 {
-    
+    UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[[@[self.topic[@"title"], @" https://ruby-china.org/topics/", self.topic[@"id"]] componentsJoinedByString:@""]] applicationActivities:nil];
+    [self presentViewController:activityController animated:YES completion:nil];
 }
 
 @end

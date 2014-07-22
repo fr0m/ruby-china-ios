@@ -1,6 +1,6 @@
-#import "UIClearView.h"
+#import "RCClearView.h"
 
-@implementation UIClearView
+@implementation RCClearView
 
 - (id)init
 {

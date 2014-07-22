@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B21F47F21958347A004B1E39 /* RCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B21F47EC1958347A004B1E39 /* RCAppDelegate.m */; };
 		B21F47F31958347A004B1E39 /* RCTopicListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21F47EE1958347A004B1E39 /* RCTopicListController.m */; };
-		B21F47F41958347A004B1E39 /* UIClearView.m in Sources */ = {isa = PBXBuildFile; fileRef = B21F47F01958347A004B1E39 /* UIClearView.m */; };
 		B263630E19581BDD00AE7B11 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B263630D19581BDD00AE7B11 /* Foundation.framework */; };
 		B263631019581BDD00AE7B11 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B263630F19581BDD00AE7B11 /* CoreGraphics.framework */; };
 		B263631219581BDD00AE7B11 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B263631119581BDD00AE7B11 /* UIKit.framework */; };
@@ -21,6 +20,7 @@
 		B263632919581BDE00AE7B11 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B263631119581BDD00AE7B11 /* UIKit.framework */; };
 		B263633119581BDE00AE7B11 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B263632F19581BDE00AE7B11 /* InfoPlist.strings */; };
 		B263633319581BDE00AE7B11 /* ruby_chinaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B263633219581BDE00AE7B11 /* ruby_chinaTests.m */; };
+		B285B7F4196EAA44002EF5B8 /* RCClearView.m in Sources */ = {isa = PBXBuildFile; fileRef = B285B7F2196EAA44002EF5B8 /* RCClearView.m */; };
 		B2B34B8219597C3F003A043C /* transparent_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34B8119597C3F003A043C /* transparent_64x64.png */; };
 		B2B34B85195980C3003A043C /* RCTopicShowController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B34B84195980C3003A043C /* RCTopicShowController.m */; };
 		B2B34B88195ABD58003A043C /* RCNodeListController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B34B87195ABD58003A043C /* RCNodeListController.m */; };
@@ -43,9 +43,7 @@
 		B21F47EB1958347A004B1E39 /* RCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAppDelegate.h; sourceTree = "<group>"; };
 		B21F47EC1958347A004B1E39 /* RCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAppDelegate.m; sourceTree = "<group>"; };
 		B21F47ED1958347A004B1E39 /* RCTopicListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTopicListController.h; sourceTree = "<group>"; };
-		B21F47EE1958347A004B1E39 /* RCTopicListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTopicListController.m; sourceTree = "<group>"; };
-		B21F47EF1958347A004B1E39 /* UIClearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIClearView.h; sourceTree = "<group>"; };
-		B21F47F01958347A004B1E39 /* UIClearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIClearView.m; sourceTree = "<group>"; };
+		B21F47EE1958347A004B1E39 /* RCTopicListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCTopicListController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B263630A19581BDD00AE7B11 /* ruby-china.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ruby-china.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B263630D19581BDD00AE7B11 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B263630F19581BDD00AE7B11 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -60,11 +58,13 @@
 		B263632E19581BDE00AE7B11 /* ruby-chinaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ruby-chinaTests-Info.plist"; sourceTree = "<group>"; };
 		B263633019581BDE00AE7B11 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B263633219581BDE00AE7B11 /* ruby_chinaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ruby_chinaTests.m; sourceTree = "<group>"; };
+		B285B7F2196EAA44002EF5B8 /* RCClearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCClearView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		B285B7F3196EAA44002EF5B8 /* RCClearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RCClearView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		B2B34B8119597C3F003A043C /* transparent_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent_64x64.png; sourceTree = "<group>"; };
 		B2B34B83195980AB003A043C /* RCTopicShowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTopicShowController.h; sourceTree = "<group>"; };
-		B2B34B84195980C3003A043C /* RCTopicShowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTopicShowController.m; sourceTree = "<group>"; };
+		B2B34B84195980C3003A043C /* RCTopicShowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCTopicShowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B2B34B86195ABD47003A043C /* RCNodeListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCNodeListController.h; sourceTree = "<group>"; };
-		B2B34B87195ABD58003A043C /* RCNodeListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCNodeListController.m; sourceTree = "<group>"; };
+		B2B34B87195ABD58003A043C /* RCNodeListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCNodeListController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D902669023FA41D8A8475893 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,14 +106,14 @@
 			children = (
 				B21F47EB1958347A004B1E39 /* RCAppDelegate.h */,
 				B21F47EC1958347A004B1E39 /* RCAppDelegate.m */,
+				B285B7F3196EAA44002EF5B8 /* RCClearView.h */,
+				B285B7F2196EAA44002EF5B8 /* RCClearView.m */,
 				B2B34B86195ABD47003A043C /* RCNodeListController.h */,
 				B2B34B87195ABD58003A043C /* RCNodeListController.m */,
 				B21F47ED1958347A004B1E39 /* RCTopicListController.h */,
 				B21F47EE1958347A004B1E39 /* RCTopicListController.m */,
 				B2B34B83195980AB003A043C /* RCTopicShowController.h */,
 				B2B34B84195980C3003A043C /* RCTopicShowController.m */,
-				B21F47EF1958347A004B1E39 /* UIClearView.h */,
-				B21F47F01958347A004B1E39 /* UIClearView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -323,7 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B21F47F41958347A004B1E39 /* UIClearView.m in Sources */,
+				B285B7F4196EAA44002EF5B8 /* RCClearView.m in Sources */,
 				B21F47F31958347A004B1E39 /* RCTopicListController.m in Sources */,
 				B263631A19581BDD00AE7B11 /* main.m in Sources */,
 				B2B34B85195980C3003A043C /* RCTopicShowController.m in Sources */,

@@ -1,9 +1,10 @@
 #import <CCBottomRefreshControl/UIScrollView+BottomRefreshControl.h>
+#import <DateTools/NSDate+DateTools.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "RCNodeListController.h"
 #import "RCTopicListController.h"
 #import "RCTopicShowController.h"
-#import "UIClearView.h"
+#import "RCClearView.h"
 
 @implementation RCTopicListController
 
@@ -12,13 +13,16 @@
     if (!self.title) self.title = @"Ruby China";
     self.topics = [@[] mutableCopy];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"分类" style:UIBarButtonItemStylePlain target:self action:@selector(showNodeList)];
+    self.navigationItem.leftBarButtonItems = @[
+        [[UIBarButtonItem alloc] initWithTitle:@"分类" style:UIBarButtonItemStylePlain target:self action:@selector(showNodeList)],
+//        [[UIBarButtonItem alloc] initWithTitle:@"关于" style:UIBarButtonItemStylePlain target:self action:@selector(showAbout)]
+    ];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(loadData)];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.tableFooterView = [UIClearView new];
+    self.tableView.tableFooterView = [RCClearView new];
     [self.view addSubview:self.tableView];
     
     self.topRefreshControl = [UIRefreshControl new];
@@ -27,10 +31,10 @@
     [self.tableView addSubview:self.topRefreshControl];
     
     UIRefreshControl *bottomRefreshControl = [UIRefreshControl new];
-    self.bottomRefreshControl.tintColor = [[UIApplication sharedApplication].delegate window].tintColor;
+    bottomRefreshControl.tintColor = [[UIApplication sharedApplication].delegate window].tintColor;
     [bottomRefreshControl endRefreshing];
     [bottomRefreshControl addTarget:self action:@selector(bottomRefresh) forControlEvents:UIControlEventValueChanged];
-    self.tableView.bottomRefreshControl = bottomRefreshControl;
+    self.tableView.bottomRefreshControl = self.bottomRefreshControl = bottomRefreshControl;
 
     [self topRefresh];
 }
@@ -81,7 +85,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 72;
+    return 64;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -93,7 +97,10 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = topic[@"title"];
     cell.textLabel.numberOfLines = 2;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@%@", self.nodeId ? @"" : [NSString stringWithFormat:@"[%@] · ", topic[@"node_name"]], topic[@"user"][@"login"], [topic[@"replies_count"] intValue] > 0 ? [NSString stringWithFormat:@" · %@ ↵", topic[@"replies_count"]] : @""];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ";
+    NSString *replied_at = [dateFormatter dateFromString:topic[@"replied_at"] != [NSNull null] ? topic[@"replied_at"] : topic[@"created_at"]].timeAgoSinceNow;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@%@%@", self.nodeId ? @"" : [NSString stringWithFormat:@"[%@] · ", topic[@"node_name"]], topic[@"user"][@"login"], [NSString stringWithFormat:@" · %@", replied_at], [topic[@"replies_count"] intValue] > 0 ? [NSString stringWithFormat:@" · %@ ↵", topic[@"replies_count"]] : @""];
     cell.detailTextLabel.textColor = [UIColor grayColor];
     [cell.imageView setImageWithURL:topic[@"user"][@"avatar_url"] placeholderImage:[UIImage imageNamed:@"transparent_64x64.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
         if (error) return;

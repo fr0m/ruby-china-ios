@@ -1,6 +1,6 @@
 #import "RCNodeListController.h"
 #import "RCTopicListController.h"
-#import "UIClearView.h"
+#import "RCClearView.h"
 
 @implementation RCNodeListController
 
@@ -13,7 +13,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.tableFooterView = [UIClearView new];
+    self.tableView.tableFooterView = [RCClearView new];
     [self.view addSubview:self.tableView];
     
     [self loadData];
@@ -83,7 +83,7 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     RCTopicListController *topicListController = ((UINavigationController *)self.presentingViewController).childViewControllers[0];
     NSDictionary *node = self.sections[indexPath.section][@"nodes"][indexPath.row];
-    topicListController.title = node[@"name"] == @"全部" ? @"Ruby China" : node[@"name"];
+    topicListController.title = [node[@"name"] isEqualToString:@"全部"] ? @"Ruby China" : node[@"name"];
     topicListController.nodeId = node[@"id"];
 //    [topicListController.tableView setContentOffset:CGPointZero animated:NO];
     [topicListController topRefresh];
