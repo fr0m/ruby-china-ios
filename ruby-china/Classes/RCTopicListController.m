@@ -22,6 +22,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.backgroundColor = [[UIApplication sharedApplication].delegate window].backgroundColor;
     self.tableView.tableFooterView = [RCClearView new];
     [self.view addSubview:self.tableView];
     
@@ -102,7 +103,7 @@
     NSString *replied_at = [dateFormatter dateFromString:topic[@"replied_at"] != [NSNull null] ? topic[@"replied_at"] : topic[@"created_at"]].timeAgoSinceNow;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@%@%@", self.nodeId ? @"" : [NSString stringWithFormat:@"[%@] · ", topic[@"node_name"]], topic[@"user"][@"login"], [NSString stringWithFormat:@" · %@", replied_at], [topic[@"replies_count"] intValue] > 0 ? [NSString stringWithFormat:@" · %@ ↵", topic[@"replies_count"]] : @""];
     cell.detailTextLabel.textColor = [UIColor grayColor];
-    [cell.imageView setImageWithURL:topic[@"user"][@"avatar_url"] placeholderImage:[UIImage imageNamed:@"transparent_64x64.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+    [cell.imageView sd_setImageWithURL:topic[@"user"][@"avatar_url"] placeholderImage:[UIImage imageNamed:@"transparent_64x64.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (error) return;
         cell.imageView.transform = CGAffineTransformMakeScale(32 / cell.imageView.image.size.width, 32 / cell.imageView.image.size.height);
         [cell setNeedsLayout];

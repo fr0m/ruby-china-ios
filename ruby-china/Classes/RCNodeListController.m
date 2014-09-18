@@ -13,6 +13,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.backgroundColor = [[UIApplication sharedApplication].delegate window].backgroundColor;
     self.tableView.tableFooterView = [RCClearView new];
     [self.view addSubview:self.tableView];
     
